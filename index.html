@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Product Admin</title>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Roboto:400,700"
+    />
+    <!-- https://fonts.google.com/specimen/Roboto -->
+    <link rel="stylesheet" href="css/fontawesome.min.css" />
+    <!-- https://fontawesome.com/ -->
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <!-- https://getbootstrap.com/ -->
+    <link rel="stylesheet" href="css/templatemo-style.css" />
+    <!--
+	Product Admin CSS Template
+	https://templatemo.com/tm-524-product-admin
+	-->
+  </head>
+  <body id="reportsPage">
+    <div class="" id="home">
+      <nav class="navbar navbar-expand-xl">
+        <div class="container h-100">
+          <a class="navbar-brand" href="index.html">
+            <h1 class="tm-site-title mb-0">Product Admin</h1>
+          </a>
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link d-block" href="login.html"> Admin, <b>Logout</b> </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      <div class="container">
+        <div class="row">
+          <div class="col">
+            <h2 class="tm-block-title mb-3 mt-4">List Product</h2>
+          </div>
+        </div>
+        <!-- row -->
+        <div class="row tm-content-row">
+          <div class="col-12 tm-block-col">
+            <div class="head-product">
+              <button
+                id="btnAddNewProduct"
+                class="btn btn-primary text-uppercase mb-3"
+                data-toggle="modal"
+                data-target="#myModal"
+                onclick="handleAddButton()"
+              >
+                <i class="fa fa-plus mr-1"></i>
+                Add new product
+              </button>
+            </div>
+
+            <!-- Modal -->
+            <div class="modal fade" id="myModal">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <!-- Modal Header -->
+                  <div class="modal-header">
+                    <h4 class="modal-title">Add New Product</h4>
+                    <button
+                      id="btnCloseModal"
+                      type="button"
+                      class="close"
+                      data-dismiss="modal"
+                    >
+                      &times;
+                    </button>
+                  </div>
+                  <!-- Modal body -->
+                  <div class="modal-body">
+                    <input type="hidden" name="productId" id="prId" />
+                    <div class="form-group col">
+                      <div class="item">
+                        <label>Name</label>
+                        <input id="prName" class="form-control" placeholder="Name" />
+                        <span id="spanName" class="text-danger"></span>
+                      </div>
+                    </div>
+
+                    <div class="form-group d-flex">
+                      <div class="item col-6">
+                        <label>Price($)</label>
+                        <input id="prPrice" class="form-control" placeholder="Price" />
+                        <span id="spanPrice" class="text-danger"></span>
+                      </div>
+                      <div class="item col-6">
+                        <label>Screen(inch)</label>
+                        <input id="prScreen" class="form-control" placeholder="Screen" />
+                        <span id="spanScreen" class="text-danger"></span>
+                      </div>
+                    </div>
+
+                    <div class="form-group d-flex">
+                      <div class="item col-6">
+                        <label>Back Camera</label>
+                        <input
+                          id="prBackCamera"
+                          class="form-control"
+                          placeholder="Back Camera"
+                        />
+                        <span id="spanBackCam" class="text-danger"></span>
+                      </div>
+                      <div class="item col-6">
+                        <label>Front Camera</label>
+                        <input
+                          id="prFrontCamera"
+                          class="form-control"
+                          placeholder="Front Camera"
+                        />
+                        <span id="spanFrontCam" class="text-danger"></span>
+                      </div>
+                    </div>
+
+                    <div class="form-group col">
+                      <label>Image</label>
+                      <input id="prImg" class="form-control" placeholder="Image " />
+                      <span id="spanImg" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group col">
+                      <label for="">Description</label>
+                      <textarea
+                        class="form-control"
+                        name=""
+                        id="prDesc"
+                        cols="30"
+                        rows="3"
+                      ></textarea>
+                    </div>
+
+                    <div class="form-group col">
+                      <label>Tpye</label>
+                      <select
+                        id="prType"
+                        class="form-control form-select"
+                        aria-label="Default select example"
+                      >
+                        <option selected value="Iphone">Iphone</option>
+                        <option value="Samsung">Samsung</option>
+                      </select>
+                      <span id="spanType" class="text-danger"></span>
+                    </div>
+                  </div>
+                  <!-- Modal footer -->
+                  <div class="modal-footer">
+                    <button
+                      id="btnAddProduct"
+                      onclick="createProduct();"
+                      class="btn btn-success"
+                    >
+                      Add Product
+                    </button>
+
+                    <button
+                      onclick="updateProduct()"
+                      id="btnUpdateProduct"
+                      style="display: none"
+                      class="btn btn-success"
+                    >
+                      Save
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Modal -->
+
+            <div class="tm-bg-primary-dark tm-block tm-block-taller tm-block-scroll mt-3">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">STT</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Image</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Type</th>
+                    <th scope="col" colspan="2" style="text-align: center">Action</th>
+                  </tr>
+                </thead>
+                <tbody id="tblProducts"></tbody>
+              </table>
+              <!-- Loading -->
+              <div id="lds-roller" class="lds-roller" style="display: none">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+              </div>
+              <!-- Loaing  -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <footer class=""></footer>
+
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <!-- https://jquery.com/download/ -->
+    <script src="js/moment.min.js"></script>
+    <!-- https://momentjs.com/ -->
+
+    <script src="js/bootstrap.min.js"></script>
+    <!-- https://getbootstrap.com/ -->
+    <script src="js/tooplate-scripts.js"></script>
+
+    <!-- HUNG -->
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js"
+      integrity="sha512-odNmoc1XJy5x1TMVMdC7EMs3IVdItLPlCeL5vSUPN2llYKMJ2eByTTAIiiuqLg+GdNr9hF6z81p27DArRFKT7A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script src="./models/product.js"></script>
+    <script src="./js/index.js"></script>
+  </body>
+</html>
